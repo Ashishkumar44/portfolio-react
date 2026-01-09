@@ -10,7 +10,7 @@ const Contact = () => {
             <h3>Let's Connect!</h3>
             <p>I'm always interested in hearing about new projects and opportunities. Feel free to reach out!</p>
             <div className="contact-methods">
-              <a href="https://wa.me/919876543210?text=Hi%20Ashish!%20I%20visited%20your%20portfolio%20and%20would%20like%20to%20connect." target="_blank" rel="noopener noreferrer" className="contact-method whatsapp-method">
+              <a href="https://wa.me/917451915256?text=Hi%20Ashish!%20I%20visited%20your%20portfolio%20and%20would%20like%20to%20connect." target="_blank" rel="noopener noreferrer" className="contact-method whatsapp-method">
                 <i className="fab fa-whatsapp"></i>
                 <span>WhatsApp - Quick Chat</span>
               </a>

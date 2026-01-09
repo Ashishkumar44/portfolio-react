@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const Hero = () => {
   const [titleText, setTitleText] = useState('');
@@ -6,29 +6,53 @@ const Hero = () => {
   const [charIndex, setCharIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
 
-  const titles = useMemo(() => ['Full Stack Developer & Problem Solver', 'Web Developer', 'MERN Stack Developer', 'Software Engineer'], []);
+  const titles = ['Full Stack Developer & Problem Solver', 'Web Developer', 'MERN Stack Developer', 'Software Engineer'];
 
   useEffect(() => {
-    const currentTitle = titles[titleIndex];
-    const typeSpeed = isDeleting ? 50 : 100;
-
-    const timeout = setTimeout(() => {
-      if (!isDeleting && charIndex < currentTitle.length) {
-        setTitleText(currentTitle.substring(0, charIndex + 1));
-        setCharIndex(prev => prev + 1);
-      } else if (isDeleting && charIndex > 0) {
+    const typeTitle = () => {
+      const currentTitle = titles[titleIndex];
+      
+      if (isDeleting) {
         setTitleText(currentTitle.substring(0, charIndex - 1));
         setCharIndex(prev => prev - 1);
-      } else if (!isDeleting && charIndex === currentTitle.length) {
+      } else {
+        setTitleText(currentTitle.substring(0, charIndex + 1));
+        setCharIndex(prev => prev + 1);
+      }
+      
+      let typeSpeed = isDeleting ? 50 : 100;
+      
+      if (!isDeleting && charIndex === currentTitle.length) {
         setTimeout(() => setIsDeleting(true), 2000);
+        return;
       } else if (isDeleting && charIndex === 0) {
         setIsDeleting(false);
         setTitleIndex((prev) => (prev + 1) % titles.length);
+        setTimeout(typeTitle, 500);
+        return;
       }
-    }, typeSpeed);
+      
+      setTimeout(typeTitle, typeSpeed);
+    };
 
+    const timeout = setTimeout(typeTitle, isDeleting ? 50 : 100);
     return () => clearTimeout(timeout);
   }, [charIndex, isDeleting, titleIndex, titles]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const currentTitle = titles[titleIndex];
+      if (isDeleting) {
+        setTitleText(currentTitle.substring(0, charIndex - 1));
+        setCharIndex(prev => prev - 1);
+      } else {
+        setTitleText(currentTitle.substring(0, charIndex + 1));
+        setCharIndex(prev => prev + 1);
+      }
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <section id="home" className="hero">
@@ -58,7 +82,7 @@ const Hero = () => {
             <a href="https://www.linkedin.com/in/ashish-kumar44/" target="_blank" rel="noopener noreferrer" className="social-icon" data-tooltip="LinkedIn">
               <i className="fab fa-linkedin"></i>
             </a>
-            <a href="https://wa.me/919876543210" target="_blank" rel="noopener noreferrer" className="social-icon" data-tooltip="WhatsApp">
+            <a href="https://wa.me/917451915256" target="_blank" rel="noopener noreferrer" className="social-icon" data-tooltip="WhatsApp">
               <i className="fab fa-whatsapp"></i>
             </a>
             <a href="mailto:ashishsahay5@gmail.com" className="social-icon" data-tooltip="Email">
