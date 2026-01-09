@@ -1,6 +1,53 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
-const Contact = () => {
+function Contact() {
+  useEffect(() => {
+    // Scroll animations
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -100px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, observerOptions);
+
+    const contactContent = document.querySelector('.contact-content');
+    if (contactContent) {
+      contactContent.style.opacity = '0';
+      contactContent.style.transform = 'translateY(50px)';
+      contactContent.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+      observer.observe(contactContent);
+    }
+
+    // Input focus effects
+    const inputs = document.querySelectorAll('.contact-form input:not([type="hidden"]), .contact-form textarea');
+    inputs.forEach(input => {
+      input.addEventListener('focus', (e) => {
+        e.target.parentElement.style.transform = 'scale(1.02)';
+      });
+      
+      input.addEventListener('blur', (e) => {
+        e.target.parentElement.style.transform = 'scale(1)';
+      });
+    });
+
+    return () => {
+      if (contactContent) observer.unobserve(contactContent);
+    };
+  }, []);
+
+  const handleSubmit = (e) => {
+    const btn = e.target.querySelector('.btn-primary');
+    btn.innerHTML = '<span>Sending...</span><i class="fas fa-spinner fa-spin"></i>';
+    btn.disabled = true;
+  };
+
   return (
     <section id="contact" className="contact">
       <div className="container">
@@ -29,12 +76,12 @@ const Contact = () => {
             </div>
           </div>
           <div className="contact-form-container">
-            <form className="contact-form" action="https://formsubmit.co/ashishsahay5@gmail.com" method="POST">
+            <form className="contact-form" action="https://formsubmit.co/ashishsahay5@gmail.com" method="POST" onSubmit={handleSubmit}>
               <input type="hidden" name="_subject" value="New Portfolio Contact Message!" />
               <input type="hidden" name="_captcha" value="false" />
               <input type="hidden" name="_template" value="table" />
               <input type="hidden" name="_next" value="https://ashishkumar44.github.io/thank-you.html" />
-              <input type="text" name="_honey" style={{ display: 'none' }} />
+              <input type="text" name="_honey" style={{display: 'none'}} />
               
               <div className="form-group">
                 <input type="text" name="name" placeholder="Your Name" required />
@@ -52,13 +99,13 @@ const Contact = () => {
                 <span>Send Message</span>
                 <i className="fas fa-paper-plane"></i>
               </button>
-              <p className="form-note">Or send directly: <a href="mailto:ashishsahay5@gmail.com?subject=Portfolio Contact&body=Hi Ashish!" style={{ color: 'var(--primary-color)' }}>ashishsahay5@gmail.com</a></p>
+              <p className="form-note">Or send directly: <a href="mailto:ashishsahay5@gmail.com?subject=Portfolio Contact&body=Hi Ashish!" style={{color: 'var(--primary-color)'}}>ashishsahay5@gmail.com</a></p>
             </form>
           </div>
         </div>
       </div>
     </section>
   );
-};
+}
 
 export default Contact;

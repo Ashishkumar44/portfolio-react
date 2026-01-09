@@ -1,6 +1,6 @@
 import React from 'react';
 
-const AnimatedBackground = () => {
+function AnimatedBackground() {
   return (
     <div className="animated-bg">
       <div className="cube"></div>
@@ -10,6 +10,6 @@ const AnimatedBackground = () => {
       <div className="cube"></div>
     </div>
   );
-};
+}
 
 export default AnimatedBackground;

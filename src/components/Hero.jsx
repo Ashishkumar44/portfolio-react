@@ -1,57 +1,77 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
-const Hero = () => {
+function Hero() {
   const [titleText, setTitleText] = useState('');
-  const [titleIndex, setTitleIndex] = useState(0);
-  const [charIndex, setCharIndex] = useState(0);
-  const [isDeleting, setIsDeleting] = useState(false);
-
-  const titles = ['Full Stack Developer & Problem Solver', 'Web Developer', 'MERN Stack Developer', 'Software Engineer'];
 
   useEffect(() => {
-    const typeTitle = () => {
+    const titles = ['Full Stack Developer', 'Web Developer', 'MERN Stack Developer', 'Software Engineer'];
+    let titleIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+
+    function typeTitle() {
       const currentTitle = titles[titleIndex];
       
       if (isDeleting) {
         setTitleText(currentTitle.substring(0, charIndex - 1));
-        setCharIndex(prev => prev - 1);
+        charIndex--;
       } else {
         setTitleText(currentTitle.substring(0, charIndex + 1));
-        setCharIndex(prev => prev + 1);
+        charIndex++;
       }
       
       let typeSpeed = isDeleting ? 50 : 100;
       
       if (!isDeleting && charIndex === currentTitle.length) {
-        setTimeout(() => setIsDeleting(true), 2000);
-        return;
+        typeSpeed = 2000;
+        isDeleting = true;
       } else if (isDeleting && charIndex === 0) {
-        setIsDeleting(false);
-        setTitleIndex((prev) => (prev + 1) % titles.length);
-        setTimeout(typeTitle, 500);
-        return;
+        isDeleting = false;
+        titleIndex = (titleIndex + 1) % titles.length;
+        typeSpeed = 500;
       }
       
       setTimeout(typeTitle, typeSpeed);
-    };
-
-    const timeout = setTimeout(typeTitle, isDeleting ? 50 : 100);
+    }
+    
+    const timeout = setTimeout(typeTitle, 1000);
     return () => clearTimeout(timeout);
-  }, [charIndex, isDeleting, titleIndex, titles]);
+  }, []);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      const currentTitle = titles[titleIndex];
-      if (isDeleting) {
-        setTitleText(currentTitle.substring(0, charIndex - 1));
-        setCharIndex(prev => prev - 1);
-      } else {
-        setTitleText(currentTitle.substring(0, charIndex + 1));
-        setCharIndex(prev => prev + 1);
-      }
-    }, 1000);
-
-    return () => clearTimeout(timer);
+    // Floating card 3D effect
+    const floatingCard = document.querySelector('.floating-card');
+    if (floatingCard) {
+      const handleMouseMove = (e) => {
+        const rect = floatingCard.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        
+        const rotateX = (y - centerY) / 10;
+        const rotateY = (centerX - x) / 10;
+        
+        const cardInner = floatingCard.querySelector('.card-inner');
+        cardInner.style.transform = 
+          `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.05, 1.05, 1.05)`;
+      };
+      
+      const handleMouseLeave = () => {
+        const cardInner = floatingCard.querySelector('.card-inner');
+        cardInner.style.transform = 
+          'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
+      };
+      
+      floatingCard.addEventListener('mousemove', handleMouseMove);
+      floatingCard.addEventListener('mouseleave', handleMouseLeave);
+      
+      return () => {
+        floatingCard.removeEventListener('mousemove', handleMouseMove);
+        floatingCard.removeEventListener('mouseleave', handleMouseLeave);
+      };
+    }
   }, []);
 
   return (
@@ -59,7 +79,7 @@ const Hero = () => {
       <div className="hero-content">
         <div className="hero-text">
           <h1 className="glitch" data-text="Hi, I'm Ashish Kumar">Hi, I'm Ashish Kumar</h1>
-          <h2 className="title-animate">{titleText || 'Full Stack Developer & Problem Solver'}</h2>
+          <h2 className="title-animate">{titleText}<span className="cursor">|</span></h2>
           <p className="hero-description">
             Enthusiastic Software Developer with hands-on experience in building interactive projects using React, Tailwind CSS, 
             and JavaScript. Eager to learn and grow in a collaborative environment while delivering pixel-perfect and optimized 
@@ -109,6 +129,6 @@ const Hero = () => {
       </div>
     </section>
   );
-};
+}
 
 export default Hero;
