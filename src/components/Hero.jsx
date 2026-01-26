@@ -71,7 +71,6 @@ const Hero = () => {
             <div className="card-inner">
               <div className="avatar-container">
                 <img src="https://avatars.githubusercontent.com/u/203948727?v=4" alt="Ashish Kumar" className="avatar" />
-                <div className="status-indicator"></div>
               </div>
             </div>
           </div>
