@@ -46,7 +46,7 @@ const Hero = () => {
               <span>View My Work</span>
               <i className="fas fa-arrow-right"></i>
             </a>
-            <a href="https://drive.google.com/file/d/1SlO7Fxg6dKisaLmMr141rX-rbUmmAHD1/view?usp=drivesdk" target="_blank" rel="noopener noreferrer" className="btn btn-secondary">
+            <a href="https://drive.google.com/file/d/1TV13PqO-rR1hyCPHqXVmcGEDIDJ7plI1/view?usp=drivesdk" target="_blank" rel="noopener noreferrer" className="btn btn-secondary">
               <span>Download Resume</span>
               <i className="fas fa-download"></i>
             </a>
