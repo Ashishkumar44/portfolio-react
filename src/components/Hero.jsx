@@ -6,7 +6,7 @@ const Hero = () => {
   const [charIndex, setCharIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
 
-  const titles = useMemo(() => ['Full Stack Developer & Problem Solver', 'Web Developer', 'MERN Stack Developer', 'Software Engineer'], []);
+  const titles = useMemo(() => ['Full Stack Developer & Problem Solver', 'Web Developer', 'MERN Stack Developer', 'Software Engineer', 'Frontend developer'], []);
 
   useEffect(() => {
     const currentTitle = titles[titleIndex];
